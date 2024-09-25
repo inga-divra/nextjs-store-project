@@ -198,8 +198,7 @@ Logo.tsx
 ```tsx
 import Link from 'next/link';
 import { Button } from '../ui/button';
-import { LuArmchair } from 'react-icons/lu';
-import { VscCode } from 'react-icons/vsc';
+import { FaStoreAlt } from 'react-icons/fa';
 
 function Logo() {
   return (
