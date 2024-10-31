@@ -1,15 +1,5 @@
-import { Label } from '../ui/label';
-import { Input } from '../ui/input';
-
-const ImageInput = () => {
-  const name = 'image';
-  return (
-    <div className='mb-2'>
-      <Label htmlFor={name} className='capitalize'>
-        Image
-      </Label>
-      <Input id={name} name={name} type='file' required accept='image/*' />
-    </div>
-  );
+const ImageInputContainer = () => {
+  return <div>ImageInputContainer</div>;
 };
-export default ImageInput;
+
+export default ImageInputContainer;
