@@ -4,7 +4,6 @@ import db from '@/utils/db'
 import { currentUser } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
 import { imageSchema, productSchema, validateWithZodSchema } from './schemas'
-import { log } from 'console'
 import { uploadImage } from './supabase'
 
 
@@ -13,6 +12,12 @@ const getAuthUser = async () => {
     if (!user) redirect('/')
     return user
 }
+
+const getAdminUser = async () => {
+    const user = await getAuthUser();
+    if (user.id !== process.env.ADMIN_USER_ID) redirect('/');
+    return user;
+};
 
 const renderError = (error: unknown): { message: string } => {
     console.log(error);
@@ -79,3 +84,13 @@ export const createProductAction = async (
     }
     redirect('/admin/products')
 }
+
+export const fetchAdminProducts = async () => {
+    await getAdminUser();
+    const products = await db.product.findMany({
+        orderBy: {
+            createdAt: 'desc',
+        },
+    });
+    return products;
+};
