@@ -72,14 +72,16 @@ export const IconButton = ({ actionType }: { actionType: actionType }) => {
 
 export const CardSignInButton = () => {
   return (
-    <SignInButton>
+    <SignInButton mode='modal'>
       <Button
-        className='p-2 cursor-pointer'
-        asChild
         type='button'
         size='icon'
         variant='outline'
-      ></Button>
+        className='p-2 cursor-pointer'
+        asChild
+      >
+        <FaRegHeart />
+      </Button>
     </SignInButton>
   );
 };
@@ -88,13 +90,13 @@ export const CardSubmitButton = ({ isFavorite }: { isFavorite: boolean }) => {
   const { pending } = useFormStatus();
   return (
     <Button
-      className=' p-2 cursor-pointer'
       type='submit'
       size='icon'
       variant='outline'
+      className=' p-2 cursor-pointer'
     >
       {pending ? (
-        <ReloadIcon className='animate-spin' />
+        <ReloadIcon className=' animate-spin' />
       ) : isFavorite ? (
         <FaHeart />
       ) : (
