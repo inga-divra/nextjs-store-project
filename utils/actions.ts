@@ -218,7 +218,7 @@ export const toggleFavoriteAction = async (prevState: {
             })
         }
         revalidatePath(pathname)
-        return { message: favoriteId ? 'removed from faves' : 'added to faves' }
+        return { message: favoriteId ? 'Removed from faves' : 'Added to faves' }
     } catch (error) {
 
     }
