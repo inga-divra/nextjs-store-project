@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation'
 import { imageSchema, productSchema, validateWithZodSchema } from './schemas'
 import { deleteImage, uploadImage } from './supabase'
 import { revalidatePath } from 'next/cache'
+import { error } from 'console'
 
 
 const getAuthUser = async () => {
@@ -192,6 +193,34 @@ export const fetchFavoriteId = async ({ productId }: { productId: string }) => {
     return favorite?.id || null;
 }
 
-export const toggleFavoriteAction = async () => {
-    return { message: 'toggle favorite action' }
+export const toggleFavoriteAction = async (prevState: {
+    productId: string,
+    favoriteId: string | null;
+    pathname: string;
+}) => {
+    const user = await getAuthUser()
+    const { productId, favoriteId, pathname } = prevState
+
+    try {
+        if (favoriteId) {
+            await db.favorite.delete({
+                where: {
+                    id: favoriteId
+                }
+            })
+        }
+        else {
+            await db.favorite.create({
+                data: {
+                    productId,
+                    clerkId: user.id
+                }
+            })
+        }
+        revalidatePath(pathname)
+        return { message: favoriteId ? 'removed from faves' : 'added to faves' }
+    } catch (error) {
+
+    }
+    return renderError(error)
 }
