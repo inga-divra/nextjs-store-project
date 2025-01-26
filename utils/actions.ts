@@ -358,3 +358,19 @@ export const fetchCartItems = async () => {
     });
     return cart?.numItemsInCart || 0;
 };
+
+const fetchProduct = async () => { };
+
+export const fetchOrCreateCart = async () => { };
+
+const updateOrCreateCartItem = async () => { };
+
+export const updateCart = async () => { };
+
+export const addToCartAction = async (prevState: any, formData: FormData) => {
+    return { message: 'Product added to the cart ' }
+};
+
+export const removeCartItemAction = async () => { };
+
+export const updateCartItemAction = async () => { };
