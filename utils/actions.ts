@@ -8,6 +8,7 @@ import { deleteImage, uploadImage } from './supabase'
 import { revalidatePath } from 'next/cache'
 import { error } from 'console'
 import { Cart } from '@prisma/client'
+import { errorMonitor } from 'events'
 
 
 const getAuthUser = async () => {
@@ -497,7 +498,29 @@ export const removeCartItemAction = async (
     prevState: any,
     formData: FormData
 ) => {
-    return { message: 'Item removed from cart' };
+    const user = await getAdminUser()
+    try {
+        const cartItemId = formData.get('id') as string;
+        const cart = await fetchOrCreateCart({
+            userId: user.id,
+            errorOnFailure: true,
+        });
+        await db.cartItem.delete({
+            where: {
+                id: cartItemId,
+                cartId: cart.id,
+            },
+        });
+
+        await updateCart(cart);
+        revalidatePath('/cart');
+
+
+        return { message: 'Item removed from cart' };
+    } catch (error) {
+
+    }
+    return renderError(error);
 };
 
 export const updateCartItemAction = async () => { };
