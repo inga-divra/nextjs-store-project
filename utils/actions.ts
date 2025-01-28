@@ -493,7 +493,12 @@ export const addToCartAction = async (prevState: any, formData: FormData) => {
     redirect('/cart');
 };
 
-export const removeCartItemAction = async () => { };
+export const removeCartItemAction = async (
+    prevState: any,
+    formData: FormData
+) => {
+    return { message: 'Item removed from cart' };
+};
 
 export const updateCartItemAction = async () => { };
 
