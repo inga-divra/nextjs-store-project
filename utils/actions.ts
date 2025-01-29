@@ -566,7 +566,31 @@ export const updateCartItemAction = async ({
 };
 
 export const createOrderAction = async (prevState: any, formData: FormData) => {
-    return { message: 'order created' }
+    const user = await getAuthUser();
+    try {
+        const cart = await fetchOrCreateCart({
+            userId: user.id,
+            errorOnFailure: true,
+        });
+        const order = await db.order.create({
+            data: {
+                clerkId: user.id,
+                products: cart.numItemsInCart,
+                orderTotal: cart.orderTotal,
+                tax: cart.tax,
+                shipping: cart.shipping,
+                email: user.emailAddresses[0].emailAddress,
+            },
+        })
+        await db.cart.delete({
+            where: {
+                id: cart.id,
+            },
+        })
+    } catch (error) {
+        return renderError(error)
+    }
+    redirect('/orders')
 };
 
 
