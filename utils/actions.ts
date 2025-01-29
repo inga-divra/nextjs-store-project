@@ -594,3 +594,16 @@ export const createOrderAction = async (prevState: any, formData: FormData) => {
 };
 
 
+export const fetchUserOrders = async () => {
+    const user = await getAuthUser();
+    const orders = await db.order.findMany({
+        where: {
+            clerkId: user.id,
+            isPaid: true,
+        },
+        orderBy: {
+            createdAt: 'desc',
+        },
+    });
+    return orders;
+};
