@@ -607,3 +607,17 @@ export const fetchUserOrders = async () => {
     });
     return orders;
 };
+
+export const fetchAdminOrders = async () => {
+    const user = await getAdminUser();
+
+    const orders = await db.order.findMany({
+        where: {
+            isPaid: true,
+        },
+        orderBy: {
+            createdAt: 'desc',
+        },
+    });
+    return orders;
+};
